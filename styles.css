@@ -1,15 +1,22 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 0 24px;
     background: #f7f9fb;
+}
+
+h1 {
+    text-align: center;
+    margin: 32px 0;
+    font-size: 2.5rem;
+    color: #333;
 }
 
 .patterns-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-    padding: 32px 24px;
+    padding: 32px 0;
 }
 
 .pattern {
@@ -35,15 +42,26 @@ body {
 .pattern .fa-icon {
     margin-top: 8px;
     color: #3a7bd5;
-    transition: transform 0.2s;
-}
-
-.pattern:hover {
-    z-index: 2;
 }
 
 .pattern:hover .fa-icon {
-    transform: scale(1.20);
+    animation: icon-impact 1.2s ease forwards;
+}
+
+@keyframes icon-impact {
+    0% {
+        scale: 1.0;
+    }
+    30% {
+        scale: 2.0;
+        rotate: 180deg;
+        color: navy
+    }
+    100% {
+        scale: 1.2;
+        rotate: 0deg;
+        color: navy
+    }
 }
 
 .pattern:hover p {

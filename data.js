@@ -103,5 +103,21 @@ const DESIGN_PATTERNS = [
     name: "State",
     description: "Uma abstração que permite a representação do estado de objetos em diferentes situações",
     icon: "fa-chart-bar"
+  },
+    {
+    name: "Chain of Responsibility",
+    description: "Uma abstração que define uma cadeia de responsabilidades para lidar com requisições",
+    icon: "fa-link"
+  },
+  {
+    name: "Command",
+    description: "Uma abstração que permite a definição de comandos que podem ser executados como objetos",
+    icon: "fa-play"
+  },
+  {
+    name: "Visitor",
+    description: "Uma abstração que permite a iteração sobre conjuntos de dados iteráveis",
+    icon: "fa-magnifying-glass"
   }
 ];
+

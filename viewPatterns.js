@@ -29,7 +29,7 @@ function populate(section, patterns) {
     patternDiv.innerHTML = `
         <h3>${name}</h3>
         <p>${description}</p>
-        <i class="fa-solid ${icon} fa-5x "></i>
+        <i class="fa-solid ${icon} fa-5x fa-icon"></i>
     `;
     groupDiv.appendChild(patternDiv);
   });

@@ -1,16 +1,24 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0 24px;
+    padding: 0;
     background: #f7f9fb;
     align-items: center;
     text-align: center;
-    scroll-snap-type: y mandatory;
+    overflow: hidden;
+    height: 100dvh;
+    width: 100dvw;
 }
 
 .patterns-container {
     display: flex;
     flex-wrap: wrap;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100dvh;
+    width: 100dvw;
 }
 
 header {
@@ -21,6 +29,7 @@ header {
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
+    background-color: #3a7bd5;
 }
 
 h1 {
@@ -30,9 +39,20 @@ h1 {
 }
 
 .pattern-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100dvw;
     height: 100dvh;
     scroll-snap-align: start;
+}
+
+.pattern-group:nth-of-type(odd) {
+    background-color: coral;
+}
+
+.pattern-group:nth-of-type(even) {
+    background-color: goldenrod;
 }
 
 h2 {
@@ -47,8 +67,9 @@ h2 {
     direction: row;
     flex-wrap: wrap;
     width: 100dvw;
-    height: 100dvh;
     justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
 
 .pattern {

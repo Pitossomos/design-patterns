@@ -14,9 +14,20 @@
     <header>
         <h1>Design Patterns</h1>
         <p>Uma coleção de padrões de design de software.</p>
-        <input type="text" id="search-input" placeholder="Pesquisar padrões...">
+        <form class="search-bar">
+            <input type="search" placeholder="Buscar padrão por nome..." />
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
     </header>
 </main >
+
+<div id="code-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h3 id="modal-pattern-title"></h3>
+    <pre><code id="modal-code-example">// Exemplo de código aqui</code></pre>
+  </div>
+</div>
 
 </body>
 </html>

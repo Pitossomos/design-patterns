@@ -44,7 +44,6 @@ document.body.addEventListener('click' , (e) => {
   if (patternDiv) {
     const title = patternDiv.querySelector('h3')?.textContent || '';
     modalTitle.textContent = title;
-    
     modalCode.textContent = CODE_EXAMPLES[title] || 'Código não disponível';
     modal.classList.add('show');
   }

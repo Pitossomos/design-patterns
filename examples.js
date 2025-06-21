@@ -438,4 +438,57 @@ function clientCode() {
 
 clientCode();
 `,
+    "Singleton": `
+/**
+ * A classe Singleton define um getter estático para acessar sua instância única.
+ */
+class Singleton {
+    static #instance: Singleton;
+
+    /**
+     * O construtor sempre será privado, evitando a criação de instâncias pelo cliente.
+     */
+    private constructor() { }
+
+    /**
+     * O getter estático controla o acesso à instãncia do Singleton.
+     * 
+     * Isso permite que estender a classe Singleton mantendo apenas uma
+     * instância de cada subclasse.
+     */
+    public static get instance(): Singleton {
+        if (!Singleton.#instance) {
+            Singleton.#instance = new Singleton();
+        }
+
+        return Singleton.#instance;
+    }
+
+    /**
+     * Por fim, qualquer singleton pode definir lógica de negócio, 
+     * a ser executada na instância específica
+     */
+    public someBusinessLogic() {
+        // ...
+    }
+}
+
+/**
+ * Código cliente.
+ */
+function clientCode() {
+    const s1 = Singleton.instance;
+    const s2 = Singleton.instance;
+
+    if (s1 === s2) {
+        console.log(
+            'Singleton funciona, ambas variáveis contém a mesma instância.'
+        );
+    } else {
+        console.log('Singleton falhou, variáveis com instâncias distintas.');
+    }
+}
+
+clientCode();
+`,
 }

@@ -365,5 +365,77 @@ function clientCode(director: Director) {
 
 const director = new Director();
 clientCode(director);
-`, 
+`,
+    "Prototype": `
+/**
+ * Uma classe com habilidade de clonagem. 
+ */
+class Prototype {
+    public primitive: any;
+    public component: object;
+    public circularReference: ComponentWithBackReference;
+
+    public clone(): this {
+        const clone = Object.create(this);
+
+        clone.component = Object.create(this.component);
+
+        // Clonar um objeto com objetos aninhados e referência circular requer 
+        // tratamento especial. Nesse caso, depois da clonagem, o objeto aninhado
+        // deve apontar para o objeto clonado e não para o objeto original.
+        // Operadores spread podem ser úteis nesse caso.
+        
+        clone.circularReference = {
+            ...this.circularReference,
+            prototype: { ...this },
+        };
+
+        return clone;
+    }
+}
+
+class ComponentWithBackReference {
+    public prototype;
+
+    constructor(prototype: Prototype) {
+        this.prototype = prototype;
+    }
+}
+
+/**
+ * Código cliente.
+ */
+function clientCode() {
+    const p1 = new Prototype();
+    p1.primitive = 245;
+    p1.component = new Date();
+    p1.circularReference = new ComponentWithBackReference(p1);
+
+    const p2 = p1.clone();
+    if (p1.primitive === p2.primitive) {
+        console.log('Campos de valores primitivos foram carregados para o clone. Yay!');
+    } else {
+        console.log('Campos de valores primitivos não foram copiados. Booo!');
+    }
+    if (p1.component === p2.component) {
+        console.log('O componente simples não foi clonado. Booo!');
+    } else {
+        console.log('O componente simples foi clonado! Yay!');
+    }
+
+    if (p1.circularReference === p2.circularReference) {
+        console.log('O componente com referência circular não foi clonado. Booo!');
+    } else {
+        console.log('O componente com referência circular foi clonado. Yay!');
+    }
+
+    if (p1.circularReference.prototype === p2.circularReference.prototype) {
+        console.log('O componente com referência circular não está ligado ao objeto original. Booo!');
+    } else {
+        console.log('O componente com referência circular está ligado ao objeto original.. Yay!');
+    }
+}
+
+clientCode();
+`,
 }

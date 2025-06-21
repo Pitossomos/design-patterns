@@ -1,5 +1,3 @@
-const EXAMPLES_DIR_URL = './examples/';
-
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.querySelector(".patterns-container");
   DESIGN_PATTERNS.forEach(group => {
@@ -47,14 +45,7 @@ document.body.addEventListener('click' , (e) => {
     const title = patternDiv.querySelector('h3')?.textContent || '';
     modalTitle.textContent = title;
     
-    let example = '// Exemplo de código não disponível.'
-    fetch(EXAMPLES_DIR_URL + 'factoryMethod.ts')
-      .then(response => example = response.text())
-      .catch(() => {
-        example = '// Erro ao carregar o exemplo de código.';
-      });
-
-    modalCode.textContent = example;
+    modalCode.textContent = CODE_EXAMPLES[title] || 'Código não disponível';
     modal.classList.add('show');
   }
 });

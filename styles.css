@@ -255,7 +255,8 @@ h2 {
 }
 
 #modal-code-example {
-    
+    text-align: left;
+    vertical-align: top;
     background: #f7f9fb;
     border-radius: 8px;
     padding: 18px 16px;
@@ -264,10 +265,4 @@ h2 {
     overflow-x: auto;
     box-shadow: 0 2px 8px rgba(58,123,213,0.08);
     margin-top: 12px;
-}
-
-code {
-    font-family: 'Courier New', Courier, monospace;
-    white-space: pre-wrap;
-    word-break: break-all;
 }

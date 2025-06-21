@@ -18,7 +18,7 @@ abstract class Creator {
         // Chama o método para criar o objeto Product.
         const product = this.factoryMethod();
         // Depois, usa o objeto criado Product.
-        return "Creator: O mesmo código funcionou com ${product.operation()}";
+        return "Creator: O mesmo código funcionou com " + product.operation();
     }
 }
 

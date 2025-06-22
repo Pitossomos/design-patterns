@@ -51,11 +51,11 @@ document.body.addEventListener('click' , (e) => {
 
 
 const closeModal = () => {
+    modalCode.scrollTop = 0;
     modal.classList.remove('show');
 } 
 
 closeBtn.addEventListener('click', closeModal)
-modal.addEventListener('click', closeModal);
 document.body.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });

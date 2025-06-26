@@ -36,3 +36,16 @@ Design patterns are reusable solutions to common problems in software design. Th
 | Singleton | Ensures a class has only one instance. | [singleton.py](https://github.com/design-patterns/design-patterns/tree/master/singleton) |
 | Factory Method | Provides an interface for creating objects without specifying the concrete type. | [factory_method.py](https://github.com/design-patterns/design-patterns/tree/master/factory_method) |
 | Observer | Allows objects to be notified of changes to other objects. | [observer.py](https://github.com/design-patterns/design-patterns/tree/master/observer) |
+
+
+----- 
+
+## TODO Backlog
+
+- ✅ Agrupamento dos padrões
+- ✅ Modal para mostrar exemplos de código
+- ✅ Fechar o modal apenas ao clicar no X ou com a tecla Esc
+- ✅ Retornar a scrollbar para a posição inicial ao sair do exemplo de código
+- ⬜ Exemplos de código reais para cada padrão
+- ⬜ Exemplos de código em cores (eg. CodeMirror)
+

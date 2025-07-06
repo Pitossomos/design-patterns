@@ -45,14 +45,21 @@ document.body.addEventListener('click' , (e) => {
     const title = patternDiv.querySelector('h3')?.textContent || '';
     modalTitle.textContent = title;
     modalCode.textContent = CODE_EXAMPLES[title] || 'Código não disponível';
+    if (CODE_EXAMPLES[title]) {
+      EnlighterJS.enlight(modalCode, {
+        language: 'typescript',
+        theme: 'dracula'
+      });
+    }
     modal.classList.add('show');
   }
 });
 
-
 const closeModal = () => {
     modalCode.scrollTop = 0;
     modal.classList.remove('show');
+    modalCode.textContent = '';
+    EnlighterJS.enlight(modalCode, false); // Disable highlighting
 } 
 
 closeBtn.addEventListener('click', closeModal)

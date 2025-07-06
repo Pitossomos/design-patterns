@@ -251,17 +251,3 @@ h2 {
     color: #3a7bd5;
     font-size: 1.4rem;
 }
-
-#modal-code-example {
-    text-align: left;
-    vertical-align: top;
-    background: #f7f9fb;
-    border-radius: 8px;
-    padding: 18px 16px;
-    font-size: 1rem;
-    color: #222;
-    max-height: 70vh;
-    overflow: auto;
-    box-shadow: 0 2px 8px rgba(58,123,213,0.08);
-    margin-top: 12px;
-}

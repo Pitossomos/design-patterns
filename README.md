@@ -13,7 +13,7 @@ Este repositório apresenta vários padrões de projeto, junto com seus casos de
 - ✅ Fechar o modal apenas ao clicar no X ou com a tecla Esc
 - ✅ Retornar a scrollbar para a posição inicial ao sair do exemplo de código
 - ✅ Exemplos de código reais para cada padrão
-- ⬜ Exemplos de código em cores (eg. CodeMirror)
+- ✅ Exemplos de código em cores (eg. CodeMirror)
 - ⬜ Representação em grafo dos padrões
 - ⬜ Adicionar casos de uso
 - ⬜ Classificação por critérios (complexidade, popularidade, etc.)

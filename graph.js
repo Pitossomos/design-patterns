@@ -46,22 +46,22 @@ const simulation = d3.forceSimulation(nodes)
 
 // Cria os elementos <line> para cada link
 const link = svg.append("g")
-  .attr("class", "links")
+  .attr("class", "graph-links")
   .selectAll("line")
   .data(links)
   .join("line")
-  .attr("class", "link");
+  .attr("class", "graph-link");
 
 // Cria um grupo <g> para cada nó, que conterá o círculo e o texto
 const node = svg.append("g")
-  .attr("class", "nodes")
+  .attr("class", "graph-nodes")
   .selectAll("g")
   .data(nodes)
   .join("g");
   
 // Adiciona os círculos aos grupos de nós
 const circles = node.append("circle")
-  .attr("class", "node")
+  .attr("class", "graph-node")
   .attr("r", d => 5 + d.connections * 2) // Raio baseado no número de conexões
   .attr("fill", d => d.group === 1 ? "#ff6347" : (d.group === 2 ? "#4682b4" : "#3cb371"))
   .call(drag(simulation)); // Habilita o arraste
@@ -69,7 +69,7 @@ const circles = node.append("circle")
 // Adiciona os rótulos de texto aos grupos de nós
 const labels = node.append("text")
   .text(d => d.id)
-  .attr("class", "label");
+  .attr("class", "graph-label");
 
 // --- 5. FUNÇÃO TICK - ATUALIZA AS POSIÇÕES ---
 // A cada "passo" da simulação, esta função é chamada para atualizar

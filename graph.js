@@ -27,6 +27,8 @@ const links = [
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+const color = d3.scaleOrdinal(d3.schemeCategory10);
+
 const svg = d3.select("#graph-container")
   .attr("width", width)
   .attr("height", height)
@@ -35,41 +37,38 @@ const svg = d3.select("#graph-container")
 // --- 3. SIMULAÇÃO DE FORÇA ---
 // Aqui é onde a mágica do D3 acontece.
 const simulation = d3.forceSimulation(nodes)
-  // Força de Link: Puxa os nós conectados como uma mola.
-  .force("link", d3.forceLink(links).id(d => d.id).distance(90))
-  // Força de Carga: Faz os nós se repelirem. O valor negativo indica repulsão.
-  .force("charge", d3.forceManyBody().strength(-200))
-  // Força de Centro: Puxa todos os nós em direção ao centro do SVG.
-  .force("center", d3.forceCenter(0, 0));
-
+  .force("charge", d3.forceManyBody().strength(-400))
+  .force("link", d3.forceLink(links).id(d => d.id))
+  .force("x", d3.forceX())
+  .force("y", d3.forceY())
+  
 // --- 4. CRIAÇÃO DOS ELEMENTOS SVG ---
-
 // Cria os elementos <line> para cada link
 const link = svg.append("g")
-  .attr("class", "graph-links")
+  .attr("stroke", "#999")
+  .attr("stroke-opacity", 0.6)
   .selectAll("line")
   .data(links)
   .join("line")
-  .attr("class", "graph-link");
 
 // Cria um grupo <g> para cada nó, que conterá o círculo e o texto
 const node = svg.append("g")
-  .attr("class", "graph-nodes")
-  .selectAll("g")
+  .attr("stroke", "#fff")
+  .attr("stroke-width", 1.5)
+  .selectAll("circle")
   .data(nodes)
-  .join("g");
-  
-// Adiciona os círculos aos grupos de nós
-const circles = node.append("circle")
-  .attr("class", "graph-node")
-  .attr("r", d => 5 + d.connections * 2) // Raio baseado no número de conexões
-  .attr("fill", d => d.group === 1 ? "#ff6347" : (d.group === 2 ? "#4682b4" : "#3cb371"))
-  .call(drag(simulation)); // Habilita o arraste
+  .join("circle")
+  .attr("r", 5)
+  .attr("fill", d => color(d.group));
 
-// Adiciona os rótulos de texto aos grupos de nós
-const labels = node.append("text")
-  .text(d => d.id)
-  .attr("class", "graph-label");
+node.append("title")
+  .text(d => d.id);
+
+node.call(d3.drag()
+  .on("start", dragStarted)
+  .on("drag", dragged)
+  .on("end", dragEnded)
+);
 
 // --- 5. FUNÇÃO TICK - ATUALIZA AS POSIÇÕES ---
 // A cada "passo" da simulação, esta função é chamada para atualizar
@@ -82,30 +81,24 @@ simulation.on("tick", () => {
     .attr("y2", d => d.target.y);
 
   node
-    .attr("transform", d => `translate(${d.x},${d.y})`);
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
 });
 
 // --- 6. FUNCIONALIDADE DE ARRASTAR (DRAG) ---
-function drag(simulation) {
-  function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
+function dragStarted(event, d) {
+  if (!event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = event.x;
+  d.fy = event.y;
+}
 
-  function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
+function dragged(event, d) {
+  d.fx = event.x;
+  d.fy = event.y;
+}
 
-  function dragended(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
-
-  return d3.drag()
-    .on("start", dragstarted)
-    .on("drag", dragged)
-    .on("end", dragended);
+function dragEnded(event, d) {
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
 }

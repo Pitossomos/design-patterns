@@ -58,7 +58,7 @@ const node = svg.append("g")
   .selectAll("circle")
   .data(nodes)
   .join("circle")
-  .attr("r", 5)
+  .attr("r", 8)
   .attr("fill", d => color(d.group));
 
 node.append("title")

@@ -37,11 +37,11 @@ const svg = d3.select("#graph-container")
 // --- 3. SIMULAÇÃO DE FORÇA ---
 // Aqui é onde a mágica do D3 acontece.
 const simulation = d3.forceSimulation(nodes)
-  .force("charge", d3.forceManyBody().strength(-400))
-  .force("link", d3.forceLink(links).id(d => d.id))
-  .force("x", d3.forceX())
-  .force("y", d3.forceY())
-  
+  .force("charge", d3.forceManyBody().strength(-900))
+  .force("link", d3.forceLink(links).strength(0.5).id(d => d.id))
+  .force("x", d3.forceX().strength(0.01))
+  .force("y", d3.forceY().strength(0.02));
+
 // --- 4. CRIAÇÃO DOS ELEMENTOS SVG ---
 // Cria os elementos <line> para cada link
 const link = svg.append("g")
@@ -53,18 +53,31 @@ const link = svg.append("g")
 
 // Cria um grupo <g> para cada nó, que conterá o círculo e o texto
 const node = svg.append("g")
-  .attr("stroke", "#fff")
-  .attr("stroke-width", 1.5)
+    .attr("stroke", "#fff")
+    .attr("stroke-width", 1.5)
   .selectAll("circle")
-  .data(nodes)
-  .join("circle")
+    .data(nodes)
+  .join("g")
+
+const circle = node.append("circle")
+  .attr("cx", d => d.x)
+  .attr("cy", d => d.y)
   .attr("r", 8)
   .attr("fill", d => color(d.group));
 
-node.append("title")
+circle.append("title")
   .text(d => d.id);
 
-node.call(d3.drag()
+const text = node.append("text")
+  .text(d => d.id)
+  .attr("x", 12)
+  .attr("y", 3)
+  .attr("pointer-events", "none")
+  .attr("stroke", "#999")
+  .attr("font-size", "1em")
+  .attr("stroke-width", 0.5);
+
+circle.call(d3.drag()
   .on("start", dragStarted)
   .on("drag", dragged)
   .on("end", dragEnded)
@@ -80,9 +93,13 @@ simulation.on("tick", () => {
     .attr("x2", d => d.target.x)
     .attr("y2", d => d.target.y);
 
-  node
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y);
+  circle
+    .attr("cx", d => d.x)
+    .attr("cy", d => d.y);
+
+  text
+    .attr("x", d => d.x + 12)
+    .attr("y", d => d.y + 3);
 });
 
 // --- 6. FUNCIONALIDADE DE ARRASTAR (DRAG) ---

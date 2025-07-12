@@ -1,75 +1,94 @@
-const nodes = [
-  { id: "Página Principal", group: 1, connections: 3 },
-  { id: "Ideias de Projeto", group: 2, connections: 2 },
-  { id: "D3.js", group: 3, connections: 2 },
-  { id: "CSS", group: 3, connections: 1 },
-  { id: "JavaScript", group: 3, connections: 2 },
-  { id: "Obsidian", group: 2, connections: 1 },
-  { id: "Visualização de Dados", group: 3, connections: 2 },
-];
+// --- 1. NODES & LINKS
 
-// --- 1. DADOS ---
-// Em um projeto real, você geraria isso dinamicamente,
-// lendo seus arquivos e encontrando os links.
+const nodes = [];
+const links = [];
 
-const links = [
-  { source: "Página Principal", target: "Ideias de Projeto" },
-  { source: "Página Principal", target: "Visualização de Dados" },
-  { source: "Página Principal", target: "Obsidian" },
-  { source: "Ideias de Projeto", target: "D3.js" },
-  { source: "Visualização de Dados", target: "D3.js" },
-  { source: "Visualização de Dados", target: "JavaScript" },
-  { source: "D3.js", target: "JavaScript" },
-  { source: "D3.js", target: "CSS" },
-];
+DESIGN_PATTERNS.forEach((group, groupIndex) => {
+  nodes.push({
+    id: group.name,
+    group: 1,
+  });
+
+  group.patterns.forEach((pattern) => {
+    nodes.push({
+      id: pattern.name,
+      group: groupIndex + 2,
+    });
+    links.push({
+      source: group.name,
+      target: pattern.name,
+    });
+  });
+});
 
 // --- 2. CONFIGURAÇÃO DO SVG E DIMENSÕES ---
-const width = window.innerWidth;
-const height = window.innerHeight;
+var width = window.innerWidth;
+var height = window.innerHeight;
 
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-const svg = d3.select("#graph-container")
+const svg = d3
+  .select("#graph-container")
   .attr("width", width)
   .attr("height", height)
   .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
+window.addEventListener("resize", () => {
+  console.log("Redimensionando o SVG");
+  width = window.innerWidth;
+  height = window.innerHeight;
+  svg
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+});
+
 // --- 3. SIMULAÇÃO DE FORÇA ---
 // Aqui é onde a mágica do D3 acontece.
-const simulation = d3.forceSimulation(nodes)
-  .force("charge", d3.forceManyBody().strength(-900))
-  .force("link", d3.forceLink(links).strength(0.5).id(d => d.id))
-  .force("x", d3.forceX().strength(0.01))
-  .force("y", d3.forceY().strength(0.02));
+const simulation = d3
+  .forceSimulation(nodes)
+  .force("charge", d3.forceManyBody().strength(-500))
+  .force(
+    "link",
+    d3
+      .forceLink(links)
+      .strength(0.3)
+      .id((d) => d.id)
+  )
+  .force("x", d3.forceX().strength(0.02))
+  .force("y", d3.forceY().strength(0.05));
 
 // --- 4. CRIAÇÃO DOS ELEMENTOS SVG ---
 // Cria os elementos <line> para cada link
-const link = svg.append("g")
+const link = svg
+  .append("g")
   .attr("stroke", "#999")
   .attr("stroke-opacity", 0.6)
   .selectAll("line")
   .data(links)
-  .join("line")
+  .join("line");
 
 // Cria um grupo <g> para cada nó, que conterá o círculo e o texto
-const node = svg.append("g")
-    .attr("stroke", "#fff")
-    .attr("stroke-width", 1.5)
+const node = svg
+  .append("g")
+  .attr("stroke", "#fff")
+  .attr("stroke-width", 1.5)
   .selectAll("circle")
-    .data(nodes)
-  .join("g")
+  .data(nodes)
+  .join("g");
 
-const circle = node.append("circle")
-  .attr("cx", d => d.x)
-  .attr("cy", d => d.y)
+const circle = node
+  .append("circle")
+  .attr("cx", (d) => d.x)
+  .attr("cy", (d) => d.y)
   .attr("r", 8)
-  .attr("fill", d => color(d.group));
+  .attr("fill", (d) => color(d.group));
 
-circle.append("title")
-  .text(d => d.id);
+circle.append("title").text((d) => d.id);
 
-const text = node.append("text")
-  .text(d => d.id)
+const text = node
+  .append("text")
+  .text((d) => d.id)
   .attr("x", 12)
   .attr("y", 3)
   .attr("pointer-events", "none")
@@ -77,29 +96,28 @@ const text = node.append("text")
   .attr("font-size", "1em")
   .attr("stroke-width", 0.5);
 
-circle.call(d3.drag()
-  .on("start", dragStarted)
-  .on("drag", dragged)
-  .on("end", dragEnded)
+circle.call(
+  d3.drag().on("start", dragStarted).on("drag", dragged).on("end", dragEnded)
 );
 
 // --- 5. FUNÇÃO TICK - ATUALIZA AS POSIÇÕES ---
 // A cada "passo" da simulação, esta função é chamada para atualizar
 // as coordenadas (x, y) de todos os elementos.
 simulation.on("tick", () => {
+  nodes.forEach((d) => {
+    d.x = Math.max(-width / 2 + 10, Math.min(width / 2 - 10, d.x));
+    d.y = Math.max(-height / 2 + 10, Math.min(height / 2 - 10, d.y));
+  });
+
   link
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x)
-    .attr("y2", d => d.target.y);
+    .attr("x1", (d) => d.source.x)
+    .attr("y1", (d) => d.source.y)
+    .attr("x2", (d) => d.target.x)
+    .attr("y2", (d) => d.target.y);
 
-  circle
-    .attr("cx", d => d.x)
-    .attr("cy", d => d.y);
+  circle.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
 
-  text
-    .attr("x", d => d.x + 12)
-    .attr("y", d => d.y + 3);
+  text.attr("x", (d) => d.x + 12).attr("y", (d) => d.y + 3);
 });
 
 // --- 6. FUNCIONALIDADE DE ARRASTAR (DRAG) ---

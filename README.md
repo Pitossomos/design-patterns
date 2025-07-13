@@ -15,7 +15,7 @@ Este repositório apresenta vários padrões de projeto, junto com seus casos de
 - ✅ Exemplos de código reais para cada padrão
 - ✅ Exemplos de código em cores (EnlighterJS)
 - ✅ Representação em grafo dos padrões (D3.JS)
-- ⬜ Adequar apresentação das seções e SVG ao _mobile_
+- ✅ Adequar apresentação das seções e SVG ao _mobile_
 - ⬜ Adicionar casos de uso
 - ⬜ Classificação por critérios (complexidade, popularidade, etc.)
 - ⬜ Revisar idioma dos exemplos
